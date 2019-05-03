@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Book</title>
+    <link type="text/css" rel="stylesheet" href="static/main.css">
+</head>
+<body>
+<div id="content">
+    <h5>Message Book</h5>
+    {{range .}}
+        <div class="list">
+            <span>{{.Name}}</span><br>
+            <span>{{.Email}}-{{.CreateTime}}</span>
+            <p>{{.Content}}</p>
+            <br>
+            <a href="/delete?id={{.Id}}">delete</a>
+        </div>
+    {{end}}
+</div>
+<br>
+<div id="subform">
+    <form action="/add" method="post">
+        <em>Your Email:</em><input type="text" id="email" name="email" /><br>
+        <em>Your Name:</em><input type="text" id="name" name="name" /><br>
+        <em>Your Message:</em><br><textarea cols="100" rows="5" name="content"></textarea><br>
+        <input type="submit" value="submit" />
+    </form>
+</div>
+</body>
+</html>
