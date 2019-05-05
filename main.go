@@ -6,6 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
+	"strconv"
 	"text/template"
 	"time"
 )
@@ -24,10 +25,44 @@ func main() {
 	http.HandleFunc("/add", add)
 	http.HandleFunc("/delete", delete)
 	http.Handle("/static/", http.FileServer(http.Dir("./")))
+
+	http.HandleFunc("/detail", detail)
+
 	err := http.ListenAndServe(":80", nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+}
+
+func detail(w http.ResponseWriter, r *http.Request) {
+
+	var id int
+	var name string
+	var email string
+	var content string
+
+	vars := r.URL.Query()
+	id, err := strconv.Atoi(vars["id"][0])
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
+	CheckErr(err)
+
+	row, err := db.Query("select id, name, email, content from message where id = ?")
+
+	err = row.Scan(&id, &name, &email, &content)
+	CheckErr(err)
+
+	msg := new(Message)
+
+	msg.Id = id
+	msg.Name = name
+	msg.Email = email
+	msg.Content = content
+
+	t, err := template.ParseFiles("detail.html")
+	CheckErr(err)
+
+	t.Execute(w, &msg)
+
 }
 
 func booklist(w http.ResponseWriter, r *http.Request) {
