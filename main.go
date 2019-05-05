@@ -36,18 +36,18 @@ func booklist(w http.ResponseWriter, r *http.Request) {
 	var name string
 	var email string
 	var content string
-	var create_time int
+	var created_at string
 
-	db, err := sql.Open("mysql", "messager:messager123456@tcp(localhost:3306)/message_book?charset=utf8")
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
 	CheckErr(err)
 
-	rows, err := db.Query("select id, name, email, content, create_time from book")
+	rows, err := db.Query("select id, name, email, content, created_at from message")
 	CheckErr(err)
 
 	var messageSlice []*Message
 
 	for rows.Next() {
-		err = rows.Scan(&id, &name, &email, &content, &create_time)
+		err = rows.Scan(&id, &name, &email, &content, &created_at)
 		CheckErr(err)
 
 		msg := new(Message)
@@ -55,7 +55,7 @@ func booklist(w http.ResponseWriter, r *http.Request) {
 		msg.Name = name
 		msg.Email = email
 		msg.Content = content
-		msg.CreateTime = time.Unix(int64(create_time), 0).Format("2006-01-02 15:04:05")
+		msg.CreateTime = created_at
 
 		messageSlice = append(messageSlice, msg)
 	}
@@ -67,16 +67,16 @@ func booklist(w http.ResponseWriter, r *http.Request) {
 }
 
 func add(w http.ResponseWriter, r *http.Request) {
-	db, err := sql.Open("mysql", "messager:messager123456@tcp(localhost:3306)/message_book?charset=utf8")
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
 	CheckErr(err)
 
 	name := r.FormValue("name")
 	content := r.FormValue("content")
 	email := r.FormValue("email")
-	createtime := time.Now().Unix()
-	updatetime := time.Now().Unix()
+	createtime := time.Now().Format("2006-01-02 15:04:05")
+	updatetime := time.Now().Format("2006-01-02 15:04:05")
 
-	stmt, err := db.Prepare("insert into book(name, email, content, create_time, update_time) values (?, ?, ?, ?, ?)")
+	stmt, err := db.Prepare("insert into message(name, email, content, created_at, updated_at) values (?, ?, ?, ?, ?)")
 	if _, err := stmt.Exec(name, email, content, createtime, updatetime); err == nil {
 	}
 
@@ -87,10 +87,10 @@ func add(w http.ResponseWriter, r *http.Request) {
 func delete(w http.ResponseWriter, r *http.Request) {
 	vars := r.URL.Query()
 	id := vars["id"][0]
-	db, err := sql.Open("mysql", "messager:messager123456@tcp(localhost:3306)/message_book?charset=utf8")
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
 	CheckErr(err)
 
-	stmt, err := db.Prepare("delete from book where id = ?")
+	stmt, err := db.Prepare("delete from message where id = ?")
 	if _, err := stmt.Exec(id); err == nil {
 	}
 
