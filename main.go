@@ -24,6 +24,7 @@ func main() {
 	http.HandleFunc("/list", booklist)
 	http.HandleFunc("/add", add)
 	http.HandleFunc("/delete", delete)
+	http.HandleFunc("/update", update)
 	http.Handle("/static/", http.FileServer(http.Dir("./")))
 
 	http.HandleFunc("/detail", detail)
@@ -32,6 +33,28 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+}
+
+func update(w http.ResponseWriter, r *http.Request) {
+
+	id := r.FormValue("id")
+	name := r.FormValue("name")
+	content := r.FormValue("content")
+
+	updatetime := time.Now().Format("2006-01-02 15:04:05")
+
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
+	CheckErr(err)
+
+	stmt, err := db.Prepare("update message  set name = ?, content = ?, updated_at = ? where id = ?")
+	if _, err := stmt.Exec(name, content, updatetime, id); err == nil {
+	}
+
+	CheckErr(err)
+
+	booklist(w, r)
+	db.Close()
+
 }
 
 func detail(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +69,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/message_book?charset=utf8")
 	CheckErr(err)
 
-	row, err := db.Query("select id, name, email, content from message where id = ?")
+	row := db.QueryRow("select id, name, email, content from message where id = ?", id)
 
 	err = row.Scan(&id, &name, &email, &content)
 	CheckErr(err)
