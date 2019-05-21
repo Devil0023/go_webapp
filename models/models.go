@@ -3,11 +3,18 @@ package models
 import (
 	"../pkg/setting"
 	"fmt"
+	"github.com/astaxie/beego/orm"
 	"github.com/jinzhu/gorm"
 	"log"
 )
 
 var db *gorm.DB
+
+type Model struct {
+	ID         int               `gorm:"primary_key" json:"id"`
+	Created_at orm.DateTimeField `json:"created_at"`
+	Updated_at orm.DateTimeField `json:"updated_at"`
+}
 
 func init() {
 
