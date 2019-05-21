@@ -4,12 +4,14 @@ import (
 	"github.com/go-ini/ini"
 	"io/ioutil"
 	"log"
+	"os"
 	"time"
 )
 
 var (
 	Cfg *ini.File
 
+	Ini     string
 	Env     string
 	RunMode string
 
@@ -31,7 +33,15 @@ func init() {
 
 	Env = string(info[:])
 
-	Cfg, err = ini.Load("conf/app." + Env + ".ini")
+	Ini = "conf/app." + Env + ".ini"
+
+	_, err = os.Stat(Ini)
+
+	if err != nil {
+		Ini = "conf/app.ini"
+	}
+
+	Cfg, err = ini.Load(Ini)
 	if err != nil {
 		log.Fatal(2, "Failed to parse ini: %v", err)
 	}
