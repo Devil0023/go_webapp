@@ -1,34 +1,15 @@
-package test
+package main
 
 import (
+	"../models"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
 )
 
 func main() {
+	maps := make(map[string]interface{})
+	maps["state"] = 1
 
-	var Conf string
+	tag := models.GetTags(2, 20, maps)
 
-	info, err := ioutil.ReadFile("./.env")
-
-	if err != nil {
-		log.Fatal("Failed to parse env: ", err)
-	}
-
-	Env := string(info[:])
-
-	//Conf := os.Stat("conf/app." + Env + ".ini")? "conf/app." + Env + ".ini": "conf/app.ini"
-
-	_, err = os.Stat("conf/app." + Env + ".ini")
-
-	if err != nil {
-		Conf = "conf/app.ini"
-	} else {
-		Conf = "conf/app." + Env + ".ini"
-	}
-
-	fmt.Print(Conf)
-
+	fmt.Println(tag)
 }

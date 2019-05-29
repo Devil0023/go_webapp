@@ -1,5 +1,9 @@
 package models
 
+import (
+	"log"
+)
+
 type Tag struct {
 	Model
 
@@ -10,6 +14,11 @@ type Tag struct {
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
+
+	if db == nil {
+		log.Fatal("db is nil 2")
+	}
+
 	db.Where(maps).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&tags)
 	return
 }

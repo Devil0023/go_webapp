@@ -43,6 +43,14 @@ func init() {
 		host,
 		dbName))
 
+	fmt.Println(11111111)
+
+	if db == nil {
+		fmt.Println(22222222)
+	} else {
+		fmt.Println(33333333)
+	}
+
 	if err != nil {
 		log.Fatal("Failed to connect database : ", err)
 	}
