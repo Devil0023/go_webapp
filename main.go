@@ -17,5 +17,5 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	server.ListenAndServe() //
+	server.ListenAndServe()
 }

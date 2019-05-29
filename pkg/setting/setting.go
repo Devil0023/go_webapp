@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"fmt"
 	"github.com/go-ini/ini"
 	"io/ioutil"
 	"log"
@@ -28,7 +29,7 @@ func init() {
 	info, err := ioutil.ReadFile("./.env")
 
 	if err != nil {
-		log.Fatal("Failed to parse env: %s\n", err)
+		log.Fatal("Failed to parse env: ", err)
 	}
 
 	Env = string(info[:])
@@ -43,8 +44,10 @@ func init() {
 
 	Cfg, err = ini.Load(Ini)
 	if err != nil {
-		log.Fatal(2, "Failed to parse ini: %v", err)
+		log.Fatal(" Failed to parse ini: ", err)
 	}
+
+	fmt.Println(Ini)
 
 	LoadRunMode()
 	LoadHttpServer()

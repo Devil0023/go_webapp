@@ -14,7 +14,7 @@ func main() {
 	info, err := ioutil.ReadFile("./.env")
 
 	if err != nil {
-		log.Fatal("Failed to parse env: %s\n", err)
+		log.Fatal("Failed to parse env: ", err)
 	}
 
 	Env := string(info[:])
