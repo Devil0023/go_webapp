@@ -1,7 +1,6 @@
 package setting
 
 import (
-	"fmt"
 	"github.com/go-ini/ini"
 	"io/ioutil"
 	"log"
@@ -46,8 +45,6 @@ func init() {
 	if err != nil {
 		log.Fatal(" Failed to parse ini: ", err)
 	}
-
-	fmt.Println(Ini)
 
 	LoadRunMode()
 	LoadHttpServer()

@@ -4,6 +4,7 @@ import (
 	"../pkg/setting"
 	"fmt"
 	"github.com/astaxie/beego/orm"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"log"
 )
@@ -29,18 +30,12 @@ func init() {
 		log.Fatal(" Failed to get section database : ", err)
 	}
 
-	dbType = section.Key("DBTYPE").String()
+	dbType = section.Key("TYPE").String()
 	dbName = section.Key("NAME").String()
 	user = section.Key("USER").String()
 	password = section.Key("PASSWORD").String()
 	host = section.Key("HOST").String()
 	table_prefix = section.Key("TABLE_PREFIX").String()
-
-	fmt.Println(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		user,
-		password,
-		host,
-		dbName))
 
 	db, err := gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
