@@ -51,3 +51,7 @@ func EditTag(context *gin.Context) {
 func DeleteTag(context *gin.Context) {
 
 }
+
+func GetTagById(context *gin.Context) {
+
+}
