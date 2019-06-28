@@ -37,19 +37,11 @@ func init() {
 	host = section.Key("HOST").String()
 	table_prefix = section.Key("TABLE_PREFIX").String()
 
-	db, err := gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
 		password,
 		host,
 		dbName))
-
-	fmt.Println(11111111)
-
-	if db == nil {
-		fmt.Println(22222222)
-	} else {
-		fmt.Println(33333333)
-	}
 
 	if err != nil {
 		log.Fatal("Failed to connect database : ", err)
@@ -62,6 +54,7 @@ func init() {
 	db.SingularTable(true)
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
+
 }
 
 func CloseDB() {

@@ -13,7 +13,9 @@ func InitRouter() *gin.Engine {
 	apiv1 := router.Group("/api/v1")
 
 	{
-		apiv1.GET("/tags", v1.GetTags)
+		apiv1.GET("/tags", func(context *gin.Context) {
+			v1.GetTags(context)
+		})
 		apiv1.POST("/tags", v1.AddTag)
 		apiv1.PUT("/tags/:id", v1.EditTag)
 		apiv1.DELETE("/tags/:id", v1.DeleteTag)
