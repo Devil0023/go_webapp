@@ -1,7 +1,5 @@
 package models
 
-import "fmt"
-
 type Tag struct {
 	Model
 
@@ -13,7 +11,6 @@ type Tag struct {
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
 	db.Where(maps).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&tags)
-	fmt.Println(tags)
 	return
 }
 

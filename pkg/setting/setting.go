@@ -57,8 +57,8 @@ func LoadRunMode() {
 
 func LoadHttpServer() {
 	HttpPort = Cfg.Section("server").Key("HTTP_PORT").MustInt(80)
-	ReadTimeout = time.Duration(Cfg.Section("server").Key("READ_TIMEOUT").MustInt(60))
-	WriteTimeout = time.Duration(Cfg.Section("server").Key("Write_TIMEOUT").MustInt(60))
+	ReadTimeout = time.Duration(Cfg.Section("server").Key("READ_TIMEOUT").MustInt(60)) * time.Second
+	WriteTimeout = time.Duration(Cfg.Section("server").Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
 }
 
 func LoadApp() {

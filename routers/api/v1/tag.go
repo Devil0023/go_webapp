@@ -20,6 +20,7 @@ func GetTags(context *gin.Context) {
 
 	if context.Query("state") != "" {
 		state, _ = com.StrTo(context.Query("state")).Int()
+		maps["state"] = state
 	}
 
 	if context.Query("page") != "" {
@@ -29,8 +30,6 @@ func GetTags(context *gin.Context) {
 	if context.Query("pagesize") != "" {
 		pagesize, _ = com.StrTo(context.Query("pagesize")).Int()
 	}
-
-	maps["state"] = state
 
 	context.JSON(http.StatusOK, gin.H{
 		"code":  code.SUCCESS,
