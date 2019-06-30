@@ -81,6 +81,24 @@ func EditTag(context *gin.Context) {
 
 func DeleteTag(context *gin.Context) {
 
+	id, _ := com.StrTo(context.Param("id")).Int()
+
+	c := code.INVALID_PARAMS
+	msg := "INVALID PARAMS"
+	result := false
+
+	if models.CheckExistsById(id) == true {
+
+		c = code.SUCCESS
+		result = models.DeleteTagById(id)
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"code": c,
+		"msg":  msg,
+		"data": result,
+	})
+
 }
 
 func GetTagById(context *gin.Context) {

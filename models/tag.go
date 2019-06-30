@@ -65,3 +65,8 @@ func CheckExistsById(id int) bool {
 		return false
 	}
 }
+
+func DeleteTagById(id int) bool {
+	db.Where("id = ?", id).Delete(&Tag{})
+	return true
+}
