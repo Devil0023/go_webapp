@@ -42,9 +42,40 @@ func GetTags(context *gin.Context) {
 
 func AddTag(context *gin.Context) {
 
+	name := context.Query("name")
+	state, _ := com.StrTo(context.Query("state")).Int()
+	createdBy := context.Query("createdBy")
+
+	context.JSON(http.StatusOK, gin.H{
+		"code": code.SUCCESS,
+		"msg":  "SUCCESS",
+		"date": models.AddTag(name, state, createdBy),
+	})
+
 }
 
 func EditTag(context *gin.Context) {
+
+	c := code.INVALID_PARAMS
+	msg := "INVALID PARAMS"
+	result := false
+
+	id, _ := com.StrTo(context.Query("id")).Int()
+	state, _ := com.StrTo(context.Query("state")).Int()
+
+	name := context.Query("name")
+	createdBy := context.Query("createdBy")
+
+	if models.CheckExistsById(id) == true {
+		c = code.SUCCESS
+		result = models.EditTag(id, name, state, createdBy)
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"code": c,
+		"msg":  msg,
+		"data": result,
+	})
 
 }
 
@@ -53,5 +84,13 @@ func DeleteTag(context *gin.Context) {
 }
 
 func GetTagById(context *gin.Context) {
+
+	id, _ := com.StrTo(context.Param("id")).Int()
+
+	context.JSON(http.StatusOK, gin.H{
+		"code": code.SUCCESS,
+		"msg":  "SUCCESS",
+		"data": models.GetTagById(id),
+	})
 
 }
