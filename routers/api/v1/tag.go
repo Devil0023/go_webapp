@@ -4,6 +4,7 @@ import (
 	"../../../models"
 	"../../../pkg/code"
 	"github.com/Unknwon/com"
+	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -104,11 +105,27 @@ func DeleteTag(context *gin.Context) {
 func GetTagById(context *gin.Context) {
 
 	id, _ := com.StrTo(context.Param("id")).Int()
+	c := code.SUCCESS
+	msg := "SUCCESS"
+
+	var data interface{}
+
+	valid := validation.Validation{}
+
+	valid.Min(id, 1, "id").Message("ID 必须大于0")
+
+	if !valid.HasErrors() {
+		data = models.GetTagById(id)
+	} else {
+		c = code.INVALID_PARAMS
+		msg = "INVALID_PARAMS"
+		data = false
+	}
 
 	context.JSON(http.StatusOK, gin.H{
-		"code": code.SUCCESS,
-		"msg":  "SUCCESS",
-		"data": models.GetTagById(id),
+		"code": c,
+		"msg":  msg,
+		"data": data,
 	})
 
 }
