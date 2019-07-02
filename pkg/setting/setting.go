@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"fmt"
 	"github.com/go-ini/ini"
 	"io/ioutil"
 	"log"
@@ -49,6 +50,8 @@ func init() {
 	LoadRunMode()
 	LoadHttpServer()
 	LoadApp()
+
+	fmt.Print(JwtSecret)
 }
 
 func LoadRunMode() {

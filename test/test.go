@@ -1,15 +1,11 @@
 package main
 
+import "fmt"
 import (
-	"../models"
-	"fmt"
+	"../pkg/util"
 )
 
 func main() {
-	maps := make(map[string]interface{})
-	maps["state"] = 1
-
-	tag := models.GetTags(2, 20, maps)
-
-	fmt.Println(tag)
+	string := "123456"
+	fmt.Print(util.Str2Md5(string))
 }
