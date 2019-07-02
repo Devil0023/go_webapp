@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"../middleware/jwt"
 	"../pkg/setting"
 	"./api"
 	"./api/v1"
@@ -19,6 +20,8 @@ func InitRouter() *gin.Engine {
 	}
 
 	apiv1 := router.Group("/api/v1")
+	apiv1.Use(jwt.JWT())
+
 	{
 		apiv1.GET("/tags", v1.GetTags)
 		apiv1.GET("/tags/:id", v1.GetTagById)
