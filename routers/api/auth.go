@@ -1,12 +1,14 @@
 package api
 
 import (
-	"../../models"
-	"../../pkg/code"
-	"github.com/astaxie/beego/validation"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"../../models"
+	"../../pkg/code"
+	"../../pkg/util"
+	"github.com/astaxie/beego/validation"
+	"github.com/gin-gonic/gin"
 )
 
 type auth struct {
