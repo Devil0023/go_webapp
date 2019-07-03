@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func getLogFullPath() string {
+func getLogFileFullPath() string {
 	suffixPath := fmt.Sprintf("%s%s.%s", setting.LogSaveName, time.Now().Format(setting.LogTimeFormat), setting.LogFileExt)
 	return fmt.Sprintf("%s%s", setting.LogSavePath, suffixPath)
 }
