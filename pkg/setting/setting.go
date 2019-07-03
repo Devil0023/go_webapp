@@ -1,7 +1,6 @@
 package setting
 
 import (
-	"fmt"
 	"github.com/go-ini/ini"
 	"io/ioutil"
 	"log"
@@ -22,6 +21,11 @@ var (
 	WriteTimeout time.Duration
 
 	JwtSecret string
+
+	LogSavePath   string
+	LogSaveName   string
+	LogFileExt    string
+	LogTimeFormat string
 )
 
 func init() {
@@ -50,8 +54,7 @@ func init() {
 	LoadRunMode()
 	LoadHttpServer()
 	LoadApp()
-
-	fmt.Print(JwtSecret)
+	loadLogSetting()
 }
 
 func LoadRunMode() {
@@ -66,4 +69,11 @@ func LoadHttpServer() {
 
 func LoadApp() {
 	JwtSecret = Cfg.Section("app").Key("JWT_SECRET").MustString("")
+}
+
+func loadLogSetting() {
+	LogSavePath = Cfg.Section("log").Key("LOG_SAVE_PATH").MustString("")
+	LogFileExt = Cfg.Section("log").Key("LOG_FILE_EXT").MustString("")
+	LogSaveName = Cfg.Section("log").Key("LOG_SAVE_NAME").MustString("")
+	LogTimeFormat = Cfg.Section("log").Key("TIME_FORMAT").MustString("")
 }
