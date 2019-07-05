@@ -51,7 +51,27 @@ func SetPrefix(level Level) {
 	logger.SetPrefix(logPrefix)
 }
 
-//func Debug(v ...interface{}){
-//	SetPrefix(DEBUG)
-//	logger.Println(v)
-//}
+func Debug(v ...interface{}) {
+	SetPrefix(DEBUG)
+	logger.Println(v)
+}
+
+func Info(v ...interface{}) {
+	SetPrefix(INFO)
+	logger.Println(v)
+}
+
+func Warn(v ...interface{}) {
+	SetPrefix(WARN)
+	logger.Println(v)
+}
+
+func Error(v ...interface{}) {
+	SetPrefix(ERROR)
+	logger.Fatalln(v)
+}
+
+func Fatal(v ...interface{}) {
+	SetPrefix(FATAL)
+	logger.Println(v)
+}

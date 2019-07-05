@@ -19,10 +19,13 @@ func openLogFile(filePath string) *os.File {
 	dir, _ := os.Getwd()
 
 	switch {
+
 	case os.IsNotExist(err):
 		os.MkdirAll(dir+setting.LogSavePath, os.ModePerm)
+
 	case os.IsPermission(err):
 		log.Fatalf("Permission : %v", err)
+
 	}
 
 	handle, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
