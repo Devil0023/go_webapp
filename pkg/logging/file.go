@@ -14,9 +14,10 @@ func getLogFileFullPath() string {
 }
 
 func openLogFile(filePath string) *os.File {
-	_, err := os.Stat(filePath)
 
 	dir, _ := os.Getwd()
+
+	_, err := os.Stat(filePath)
 
 	switch {
 
@@ -28,7 +29,7 @@ func openLogFile(filePath string) *os.File {
 
 	}
 
-	handle, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	handle, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, os.ModePerm)
 
 	if err != nil {
 		log.Fatalf("Failed to open file : %v", err)
