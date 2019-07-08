@@ -1,4 +1,4 @@
-./storage
+storage/*
 .env
-./vendor
-!./vendor/vendor.json
+vendor/*
+!vendor/vendor.json
