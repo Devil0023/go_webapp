@@ -1,7 +1,8 @@
-FROM golang:latest
+FROM golang:1.12.5
 
-WORKDIR $GOPAH/src/github.com/go_webapp
-COPY . $GOPAH/src/github.com/go_webapp
+WORKDIR $GOPATH/src/go_webapp
+COPY . $GOPATH/src/go_webapp
+
 RUN go build .
 
 EXPOSE 8000

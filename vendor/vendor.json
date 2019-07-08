@@ -3,6 +3,14 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "cannot",
+			"revision": ""
+		},
+		{
+			"path": "find",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "pcrgKHC4aT5B6vmwielu/xT0N8k=",
 			"path": "github.com/Unknwon/com",
 			"revision": "0fed4efef7553eed2cd04624befccacda78bb8e2",
@@ -105,6 +113,12 @@
 			"revisionTime": "2019-06-29T10:33:22Z"
 		},
 		{
+			"checksumSHA1": "oxQzknCJtgckDEKh+zp99Ph3Qkg=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "04f50cda93cbb67f2afa353c52f342100e80e625",
+			"revisionTime": "2019-06-26T21:29:17Z"
+		},
+		{
 			"checksumSHA1": "P/k5ZGf0lEBgpKgkwy++F7K1PSg=",
 			"path": "gopkg.in/go-playground/validator.v8",
 			"revision": "5f1438d3fca68893a817e4a66806cea46a9e4ebf",
@@ -115,6 +129,10 @@
 			"path": "gopkg.in/yaml.v2",
 			"revision": "51d6538a90f86fe93ac480b35f37b2be17fef232",
 			"revisionTime": "2018-11-15T11:05:04Z"
+		},
+		{
+			"path": "package",
+			"revision": ""
 		}
 	],
 	"rootPath": "go_webapp"
