@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 import (
-	"../pkg/util"
+	"go_webapp/pkg/util"
 )
 
 func main() {

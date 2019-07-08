@@ -1,11 +1,11 @@
 package v1
 
 import (
-	"../../../models"
-	"../../../pkg/code"
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"go_webapp/models"
+	"go_webapp/pkg/code"
 	"net/http"
 )
 

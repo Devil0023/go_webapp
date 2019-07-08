@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"../setting"
 	"github.com/dgrijalva/jwt-go"
+	"go_webapp/pkg/setting"
 )
 
 var jwtSecret = []byte(setting.JwtSecret)

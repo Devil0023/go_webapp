@@ -1,11 +1,11 @@
 package models
 
 import (
-	"../pkg/setting"
 	"fmt"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"go_webapp/pkg/setting"
 	"log"
 )
 

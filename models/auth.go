@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../pkg/util"
+	"go_webapp/pkg/util"
 )
 
 type Auth struct {

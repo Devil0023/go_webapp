@@ -1,9 +1,9 @@
 package jwt
 
 import (
-	"../../pkg/code"
-	"../../pkg/util"
 	"github.com/gin-gonic/gin"
+	"go_webapp/pkg/code"
+	"go_webapp/pkg/util"
 	"net/http"
 	"time"
 )

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./pkg/setting"
-	"./routers"
 	"fmt"
 	"github.com/fvbock/endless"
+	"go_webapp/pkg/setting"
+	"go_webapp/routers"
 	"log"
 	"syscall"
 )

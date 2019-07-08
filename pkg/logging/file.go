@@ -1,8 +1,8 @@
 package logging
 
 import (
-	"../setting"
 	"fmt"
+	"go_webapp/pkg/setting"
 	"log"
 	"os"
 	"time"
