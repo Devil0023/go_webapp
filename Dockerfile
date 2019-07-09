@@ -1,9 +1,10 @@
-FROM golang:1.12.5
+FROM scratch
 
 WORKDIR $GOPATH/src/go_webapp
 COPY . $GOPATH/src/go_webapp
 
-RUN go build .
-
 EXPOSE 8000
 ENTRYPOINT ["./go_webapp"]
+
+
+# CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go_webapp .
