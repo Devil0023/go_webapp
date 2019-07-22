@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go_webapp/models"
 	"go_webapp/pkg/code"
+	"go_webapp/pkg/logging"
 	"net/http"
 )
 
@@ -47,10 +48,36 @@ func AddTag(context *gin.Context) {
 	state, _ := com.StrTo(context.Query("state")).Int()
 	createdBy := context.Query("createdBy")
 
+	valid := validation.Validation{}
+
+	valid.Required(name, "name").Message("名称不为空")
+	valid.Required(name, "createdBy").Message("创建人不为空")
+	valid.MaxSize(name, 100, "createdBy").Message("创建人最大长度为100")
+	valid.MaxSize(name, 100, "name").Message("名称最大长度为100")
+
+	result_code := code.ERROR
+	msg := ""
+	result_info := false
+
+	if !valid.HasErrors() {
+
+		result_code = code.SUCCESS
+		msg = "SUCCESS"
+		result_info = models.AddTag(name, state, createdBy)
+
+	} else {
+
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+			msg = err.Message
+		}
+
+	}
+
 	context.JSON(http.StatusOK, gin.H{
-		"code": code.SUCCESS,
-		"msg":  "SUCCESS",
-		"date": models.AddTag(name, state, createdBy),
+		"code": result_code,
+		"msg":  msg,
+		"data": result_info,
 	})
 
 }

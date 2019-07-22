@@ -46,7 +46,6 @@ func EditTag(id int, name string, state int, updatedBy string) bool {
 	data["name"] = name
 	data["state"] = state
 	data["updatedBy"] = updatedBy
-	data["updated_at"] = ""
 
 	db.Model(&Tag{}).Where("id = ?", id).Update(data)
 

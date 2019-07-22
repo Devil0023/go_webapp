@@ -2,19 +2,20 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"go_webapp/pkg/setting"
 	"log"
+	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID         int               `gorm:"primary_key" json:"id"`
-	Created_at orm.DateTimeField `json:"created_at"`
-	Updated_at orm.DateTimeField `json:"updated_at"`
+	ID         int       `gorm:"primary_key" json:"id"`
+	Created_at time.Time `json:"created_at"`
+	Updated_at time.Time `json:"updated_at"`
+	//Deleted_at orm.DateTimeField `json:"deleted_at"`
 }
 
 func init() {
@@ -55,6 +56,40 @@ func init() {
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 
+	db.Callback().Create().Replace("gorm:update_time_stamp", createdAtCallback)
+	db.Callback().Update().Replace("gorm:update_time_stamp", updatedAtCallback)
+
+}
+
+func createdAtCallback(scope *gorm.Scope) {
+
+	if !scope.HasError() {
+
+		nowTime := time.Now().Unix()
+
+		if createTimeField, ok := scope.FieldByName("created_at"); ok {
+			if createTimeField.IsBlank {
+				createTimeField.Set(nowTime)
+			}
+		}
+
+		if updateTimeField, ok := scope.FieldByName("updated_at"); ok {
+			if updateTimeField.IsBlank {
+				updateTimeField.Set(nowTime)
+			}
+		}
+	}
+}
+
+func updatedAtCallback(scope *gorm.Scope) {
+
+	if !scope.HasError() {
+		nowTime := time.Now().Unix()
+
+		if updateTimeField, ok := scope.FieldByName("updated_at"); ok {
+			updateTimeField.Set(nowTime)
+		}
+	}
 }
 
 func CloseDB() {
