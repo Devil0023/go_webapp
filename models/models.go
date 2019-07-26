@@ -68,14 +68,17 @@ func createdAtCallback(scope *gorm.Scope) {
 		nowTime := time.Now().Unix()
 
 		if createTimeField, ok := scope.FieldByName("created_at"); ok {
+
 			if createTimeField.IsBlank {
-				createTimeField.Set(nowTime)
+				fmt.Println(nowTime)
+				fmt.Println(createTimeField.Field)
+				_ = createTimeField.Set(nowTime)
 			}
 		}
 
 		if updateTimeField, ok := scope.FieldByName("updated_at"); ok {
 			if updateTimeField.IsBlank {
-				updateTimeField.Set(nowTime)
+				_ = updateTimeField.Set(nowTime)
 			}
 		}
 	}
