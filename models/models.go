@@ -65,13 +65,11 @@ func createdAtCallback(scope *gorm.Scope) {
 
 	if !scope.HasError() {
 
-		nowTime := time.Now().Unix()
+		nowTime := time.Now()
 
 		if createTimeField, ok := scope.FieldByName("created_at"); ok {
 
 			if createTimeField.IsBlank {
-				fmt.Println(nowTime)
-				fmt.Println(createTimeField.Field)
 				_ = createTimeField.Set(nowTime)
 			}
 		}
@@ -87,11 +85,11 @@ func createdAtCallback(scope *gorm.Scope) {
 func updatedAtCallback(scope *gorm.Scope) {
 
 	if !scope.HasError() {
-		nowTime := time.Now().Unix()
 
-		if updateTimeField, ok := scope.FieldByName("updated_at"); ok {
-			updateTimeField.Set(nowTime)
+		if _, ok := scope.Get("gorm:update_column"); !ok {
+			_ = scope.SetColumn("updated_at", time.Now())
 		}
+
 	}
 }
 

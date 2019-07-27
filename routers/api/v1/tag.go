@@ -88,7 +88,7 @@ func EditTag(context *gin.Context) {
 	msg := "INVALID PARAMS"
 	result := false
 
-	id, _ := com.StrTo(context.Query("id")).Int()
+	id, _ := com.StrTo(context.Param("id")).Int()
 	state, _ := com.StrTo(context.Query("state")).Int()
 
 	name := context.Query("name")
@@ -96,6 +96,7 @@ func EditTag(context *gin.Context) {
 
 	if models.CheckExistsById(id) == true {
 		c = code.SUCCESS
+		msg = "SUCCESS"
 		result = models.EditTag(id, name, state, createdBy)
 	}
 
