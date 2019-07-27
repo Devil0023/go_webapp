@@ -15,7 +15,7 @@ type Model struct {
 	ID         int       `gorm:"primary_key" json:"id"`
 	Created_at time.Time `json:"created_at"`
 	Updated_at time.Time `json:"updated_at"`
-	//Deleted_at orm.DateTimeField `json:"deleted_at"`
+	Deleted_at time.Time `json:"deleted_at"`
 }
 
 func init() {
@@ -58,6 +58,7 @@ func init() {
 
 	db.Callback().Create().Replace("gorm:update_time_stamp", createdAtCallback)
 	db.Callback().Update().Replace("gorm:update_time_stamp", updatedAtCallback)
+	db.Callback().Delete().Replace("gorm:delete", deletedAtCallback)
 
 }
 
@@ -91,6 +92,53 @@ func updatedAtCallback(scope *gorm.Scope) {
 		}
 
 	}
+}
+
+func deletedAtCallback(scope *gorm.Scope) {
+
+	if !scope.HasError() {
+
+		var extraOption, sql string
+
+		if str, ok := scope.Get("gorm:delete_option"); ok {
+			extraOption = fmt.Sprint(str)
+		}
+
+		deletedAtField, hasDeletedAtField := scope.FieldByName("deleted_at")
+
+		if !scope.Search.Unscoped && hasDeletedAtField {
+			sql = fmt.Sprintf(
+				"UPDATE $v SET %v = %v%v%v",
+				scope.QuotedTableName(),
+				scope.Quote(deletedAtField.DBName),
+				scope.AddToVars(time.Now()),
+				addExtraSpaceIfExist(scope.CombinedConditionSql()),
+				addExtraSpaceIfExist(extraOption),
+			)
+		} else {
+			sql = fmt.Sprintf(
+				"DELETE FROM %v%v%v",
+				scope.QuotedTableName(),
+				addExtraSpaceIfExist(scope.CombinedConditionSql()),
+				addExtraSpaceIfExist(extraOption),
+			)
+		}
+
+		fmt.Println(sql)
+
+		scope.Raw(sql).Exec()
+
+	}
+}
+
+func addExtraSpaceIfExist(str string) string {
+
+	if str != "" {
+		return " " + str
+	} else {
+		return ""
+	}
+
 }
 
 func CloseDB() {
