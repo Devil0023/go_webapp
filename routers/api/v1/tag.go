@@ -119,6 +119,7 @@ func DeleteTag(context *gin.Context) {
 	if models.CheckExistsById(id) == true {
 
 		c = code.SUCCESS
+		msg = "SUCCESS"
 		result = models.DeleteTagById(id)
 	}
 

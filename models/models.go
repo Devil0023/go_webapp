@@ -108,7 +108,7 @@ func deletedAtCallback(scope *gorm.Scope) {
 
 		if !scope.Search.Unscoped && hasDeletedAtField {
 			sql = fmt.Sprintf(
-				"UPDATE $v SET %v = %v%v%v",
+				"UPDATE %v SET %v = %v%v%v",
 				scope.QuotedTableName(),
 				scope.Quote(deletedAtField.DBName),
 				scope.AddToVars(time.Now()),
@@ -123,8 +123,6 @@ func deletedAtCallback(scope *gorm.Scope) {
 				addExtraSpaceIfExist(extraOption),
 			)
 		}
-
-		fmt.Println(sql)
 
 		scope.Raw(sql).Exec()
 
