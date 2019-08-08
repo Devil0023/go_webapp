@@ -5,12 +5,15 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"go_webapp/models"
+	"go_webapp/pkg/app"
 	"go_webapp/pkg/code"
-	"go_webapp/pkg/logging"
-	"net/http"
+	"go_webapp/pkg/util"
 )
 
 func GetTags(context *gin.Context) {
+
+	appG := app.Gin{context}
+	data := make(map[string]interface{})
 
 	var state, page, pagesize int = -1, 1, 20
 
@@ -33,128 +36,105 @@ func GetTags(context *gin.Context) {
 		pagesize, _ = com.StrTo(context.Query("pagesize")).Int()
 	}
 
-	context.JSON(http.StatusOK, gin.H{
-		"code":  code.SUCCESS,
-		"msg":   "SUCCESS",
-		"list":  models.GetTags(page, pagesize, maps),
-		"total": models.GetTagTotal(maps),
-	})
+	data["total"] = models.GetTagTotal(maps)
+	data["list"] = models.GetTags(page, pagesize, maps)
+
+	appG.Response(code.SUCCESS, data)
 
 }
 
 func AddTag(context *gin.Context) {
 
+	appG := app.Gin{context}
+	data := make(map[string]interface{})
+	valid := validation.Validation{}
+
 	name := context.Query("name")
 	state, _ := com.StrTo(context.Query("state")).Int()
 	createdBy := context.Query("createdBy")
-
-	valid := validation.Validation{}
 
 	valid.Required(name, "name").Message("名称不为空")
 	valid.Required(name, "createdBy").Message("创建人不为空")
 	valid.MaxSize(name, 100, "createdBy").Message("创建人最大长度为100")
 	valid.MaxSize(name, 100, "name").Message("名称最大长度为100")
 
-	result_code := code.ERROR
-	msg := ""
-	result_info := false
-
 	if !valid.HasErrors() {
 
-		result_code = code.SUCCESS
-		msg = "SUCCESS"
-		result_info = models.AddTag(name, state, createdBy)
+		data["result"] = models.AddTag(name, state, createdBy)
+		appG.Response(code.SUCCESS, data)
 
 	} else {
 
-		for _, err := range valid.Errors {
-			logging.Info(err.Key, err.Message)
-			msg = err.Message
-		}
-
+		util.LogErrors(valid.Errors)
+		appG.Response(code.INVALID_PARAMS, data)
 	}
 
-	context.JSON(http.StatusOK, gin.H{
-		"code": result_code,
-		"msg":  msg,
-		"data": result_info,
-	})
-
+	return
 }
 
 func EditTag(context *gin.Context) {
 
-	c := code.INVALID_PARAMS
-	msg := "INVALID PARAMS"
-	result := false
+	appG := app.Gin{context}
+	data := make(map[string]interface{})
+	valid := validation.Validation{}
 
 	id, _ := com.StrTo(context.Param("id")).Int()
 	state, _ := com.StrTo(context.Query("state")).Int()
-
 	name := context.Query("name")
 	createdBy := context.Query("createdBy")
 
+	valid.Required(name, "name").Message("名称不为空")
+	valid.Required(name, "createdBy").Message("创建人不为空")
+	valid.MaxSize(name, 100, "createdBy").Message("创建人最大长度为100")
+	valid.MaxSize(name, 100, "name").Message("名称最大长度为100")
+
 	if models.CheckExistsById(id) == true {
-		c = code.SUCCESS
-		msg = "SUCCESS"
-		result = models.EditTag(id, name, state, createdBy)
+		data["result"] = models.EditTag(id, name, state, createdBy)
+		appG.Response(code.SUCCESS, data)
+	} else {
+		appG.Response(code.INVALID_PARAMS, data)
 	}
 
-	context.JSON(http.StatusOK, gin.H{
-		"code": c,
-		"msg":  msg,
-		"data": result,
-	})
+	return
 
 }
 
 func DeleteTag(context *gin.Context) {
 
+	appG := app.Gin{context}
+	data := make(map[string]interface{})
+
 	id, _ := com.StrTo(context.Param("id")).Int()
 
-	c := code.INVALID_PARAMS
-	msg := "INVALID PARAMS"
-	result := false
-
 	if models.CheckExistsById(id) == true {
-
-		c = code.SUCCESS
-		msg = "SUCCESS"
-		result = models.DeleteTagById(id)
+		data["result"] = models.DeleteTagById(id)
+		appG.Response(code.SUCCESS, data)
+	} else {
+		appG.Response(code.ERROR, data)
 	}
 
-	context.JSON(http.StatusOK, gin.H{
-		"code": c,
-		"msg":  msg,
-		"data": result,
-	})
+	return
 
 }
 
 func GetTagById(context *gin.Context) {
 
-	id, _ := com.StrTo(context.Param("id")).Int()
-	c := code.SUCCESS
-	msg := "SUCCESS"
-
-	var data interface{}
-
+	appG := app.Gin{context}
+	data := make(map[string]interface{})
 	valid := validation.Validation{}
+
+	id, _ := com.StrTo(context.Param("id")).Int()
 
 	valid.Min(id, 1, "id").Message("ID 必须大于0")
 
 	if !valid.HasErrors() {
-		data = models.GetTagById(id)
+		data["result"] = models.GetTagById(id)
+		appG.Response(code.SUCCESS, data)
 	} else {
-		c = code.INVALID_PARAMS
-		msg = "INVALID_PARAMS"
-		data = false
+		util.LogErrors(valid.Errors)
+		appG.Response(code.ERROR, data)
 	}
 
-	context.JSON(http.StatusOK, gin.H{
-		"code": c,
-		"msg":  msg,
-		"data": data,
-	})
+	return
 
 }
