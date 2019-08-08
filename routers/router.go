@@ -18,7 +18,7 @@ func InitRouter() *gin.Engine {
 
 	auth := router.Group("/auth")
 	{
-		auth.GET("", api.GetAuth)
+		auth.POST("", api.GetAuth)
 	}
 
 	apiv1 := router.Group("/api/v1")
