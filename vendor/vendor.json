@@ -3,24 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"path": "cannot",
-			"revision": ""
-		},
-		{
-			"path": "find",
-			"revision": ""
-		},
-		{
 			"checksumSHA1": "pcrgKHC4aT5B6vmwielu/xT0N8k=",
 			"path": "github.com/Unknwon/com",
 			"revision": "0fed4efef7553eed2cd04624befccacda78bb8e2",
 			"revisionTime": "2019-03-21T03:55:13Z"
-		},
-		{
-			"checksumSHA1": "sAedrVAp8R2EcyS+biqcLyEJkwA=",
-			"path": "github.com/astaxie/beego/orm",
-			"revision": "e844058aeddf6065ac282a313e6f45a0a9f12731",
-			"revisionTime": "2019-06-18T04:09:34Z"
 		},
 		{
 			"checksumSHA1": "pnz1Fnb3sJlOpkRAF6aP1XTVA3M=",
@@ -89,6 +75,12 @@
 			"revisionTime": "2018-08-14T21:14:27Z"
 		},
 		{
+			"checksumSHA1": "+7HQ/tCkITv3GsFlhx3KCdt95Mg=",
+			"path": "github.com/gomodule/redigo/redis",
+			"revision": "574c33c3df387eb8f255c59a08c50793ec33bafa",
+			"revisionTime": "2019-07-24T09:19:59Z"
+		},
+		{
 			"checksumSHA1": "YzIVWHj5vDlCp3A8Zy0vhCn4zZ0=",
 			"path": "github.com/jinzhu/gorm",
 			"revision": "836fb2c19d84dac7b0272958dfb9af7cf0d0ade4",
@@ -107,16 +99,16 @@
 			"revisionTime": "2019-05-22T01:25:13Z"
 		},
 		{
+			"checksumSHA1": "c4K+xR8x9M38CsC64jmFptMjN4g=",
+			"path": "github.com/robfig/cron",
+			"revision": "61d93e07d1be270591d43ede700aa3ae69a2326f",
+			"revisionTime": "2019-06-16T12:43:56Z"
+		},
+		{
 			"checksumSHA1": "kKa1MtER2IFSTiN5CcPSVVbsPaU=",
 			"path": "github.com/ugorji/go/codec",
 			"revision": "4a058356f93d4fea0d182433e748a3a76bf2bcda",
 			"revisionTime": "2019-06-29T10:33:22Z"
-		},
-		{
-			"checksumSHA1": "oxQzknCJtgckDEKh+zp99Ph3Qkg=",
-			"path": "golang.org/x/sys/unix",
-			"revision": "04f50cda93cbb67f2afa353c52f342100e80e625",
-			"revisionTime": "2019-06-26T21:29:17Z"
 		},
 		{
 			"checksumSHA1": "P/k5ZGf0lEBgpKgkwy++F7K1PSg=",
@@ -129,10 +121,6 @@
 			"path": "gopkg.in/yaml.v2",
 			"revision": "51d6538a90f86fe93ac480b35f37b2be17fef232",
 			"revisionTime": "2018-11-15T11:05:04Z"
-		},
-		{
-			"path": "package",
-			"revision": ""
 		}
 	],
 	"rootPath": "go_webapp"
