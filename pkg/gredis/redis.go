@@ -51,9 +51,9 @@ func Setup() error {
 	return nil
 }
 
-func Set(key string, data interface{}, time int) (bool, error) {
+func Set(key string, data interface{}, time int) (string, error) {
 
-	var result bool
+	var result string
 
 	conn := RedisConn.Get()
 
@@ -62,15 +62,13 @@ func Set(key string, data interface{}, time int) (bool, error) {
 	value, err := json.Marshal(data)
 
 	if err != nil {
-		return false, err
+		return result, err
 	}
 
 	if time != 0 {
-		result, err = redis.Bool(
-			conn.Do("SET", key, value, "EX", time))
+		result, err = redis.String(conn.Do("SET", key, value, "EX", time))
 	} else {
-		result, err = redis.Bool(
-			conn.Do("SET", key, value))
+		result, err = redis.String(conn.Do("SET", key, value))
 	}
 
 	return result, err
@@ -80,7 +78,7 @@ func Get(key string) ([]byte, error) {
 
 	conn := RedisConn.Get()
 
-	defer RedisConn.Close()
+	defer conn.Close()
 
 	result, err := redis.Bytes(conn.Do("GET", key))
 
@@ -95,7 +93,7 @@ func Exists(key string) bool {
 
 	conn := RedisConn.Get()
 
-	defer RedisConn.Close()
+	defer conn.Close()
 
 	result, err := redis.Bool(conn.Do("EXISTS", key))
 
@@ -110,7 +108,7 @@ func Delete(key string) (bool, error) {
 
 	conn := RedisConn.Get()
 
-	defer RedisConn.Close()
+	defer conn.Close()
 
 	return redis.Bool(conn.Do("DELETE", key))
 }
