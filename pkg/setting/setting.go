@@ -10,25 +10,56 @@ import (
 
 var (
 	Cfg *ini.File
+	Ini string
+	Env string
+)
 
-	Ini     string
-	Env     string
-	RunMode string
+type App struct {
+	JwtSecret string
+}
 
-	HttpPort int
+var AppSetting = &App{}
 
+type Server struct {
+	RunMode      string
+	HttpPort     int
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+}
 
-	JwtSecret string
+var ServerSetting = &Server{}
 
+type Database struct {
+	Type        string
+	User        string
+	Password    string
+	Host        string
+	Name        string
+	TablePrefix string
+}
+
+var DatabaseSetting = &Database{}
+
+type Log struct {
 	LogSavePath   string
 	LogSaveName   string
 	LogFileExt    string
 	LogTimeFormat string
-)
+}
 
-func init() {
+var LogSetting = &Log{}
+
+func Setup() {
+
+	LoadEnv() //加载配置文件
+
+	LoadServer()     //加载服务配置
+	LoadDatabase()   //加载数据库配置
+	LoadApp()        //加载应用配置
+	LoadLogSetting() //加载日志配置
+}
+
+func LoadEnv() {
 
 	info, err := ioutil.ReadFile("./.env")
 
@@ -48,32 +79,39 @@ func init() {
 
 	Cfg, err = ini.Load(Ini)
 	if err != nil {
-		log.Fatal(" Failed to parse ini: ", err)
+		log.Fatal("Failed to parse ini: ", err)
+	}
+}
+
+func LoadDatabase() {
+
+	err := Cfg.Section("server").MapTo(DatabaseSetting)
+	if err != nil {
+		log.Fatal("Failed to map DatabaseSetting")
 	}
 
-	LoadRunMode()
-	LoadHttpServer()
-	LoadApp()
-	loadLogSetting()
+	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
+	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
 }
 
-func LoadRunMode() {
-	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
-}
-
-func LoadHttpServer() {
-	HttpPort = Cfg.Section("server").Key("HTTP_PORT").MustInt(80)
-	ReadTimeout = time.Duration(Cfg.Section("server").Key("READ_TIMEOUT").MustInt(60)) * time.Second
-	WriteTimeout = time.Duration(Cfg.Section("server").Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
+func LoadServer() {
+	err := Cfg.Section("server").MapTo(ServerSetting)
+	if err != nil {
+		log.Fatal("Failed to map ServerSetting")
+	}
 }
 
 func LoadApp() {
-	JwtSecret = Cfg.Section("app").Key("JWT_SECRET").MustString("")
+	err := Cfg.Section("app").MapTo(AppSetting)
+	if err != nil {
+		log.Fatal("Failed to map AppSetting")
+	}
 }
 
-func loadLogSetting() {
-	LogSavePath = Cfg.Section("log").Key("LOG_SAVE_PATH").MustString("")
-	LogFileExt = Cfg.Section("log").Key("LOG_FILE_EXT").MustString("")
-	LogSaveName = Cfg.Section("log").Key("LOG_SAVE_NAME").MustString("")
-	LogTimeFormat = Cfg.Section("log").Key("TIME_FORMAT").MustString("")
+func LoadLogSetting() {
+
+	err := Cfg.Section("log").MapTo(LogSetting)
+	if err != nil {
+		log.Fatal("Failed to map LogSetting")
+	}
 }

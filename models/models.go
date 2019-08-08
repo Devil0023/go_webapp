@@ -18,38 +18,23 @@ type Model struct {
 	Deleted_at time.Time `json:"deleted_at"`
 }
 
-func init() {
+func Setup() {
 
-	var (
-		err                                                error
-		dbType, dbName, user, password, host, table_prefix string
-	)
-
-	section, err := setting.Cfg.GetSection("database")
-
-	if err != nil {
-		log.Fatal(" Failed to get section database : ", err)
-	}
-
-	dbType = section.Key("TYPE").String()
-	dbName = section.Key("NAME").String()
-	user = section.Key("USER").String()
-	password = section.Key("PASSWORD").String()
-	host = section.Key("HOST").String()
-	table_prefix = section.Key("TABLE_PREFIX").String()
-
-	db, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		user,
-		password,
-		host,
-		dbName))
+	db, err := gorm.Open(
+		setting.DatabaseSetting.Type,
+		fmt.Sprintf(
+			"%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+			setting.DatabaseSetting.User,
+			setting.DatabaseSetting.Password,
+			setting.DatabaseSetting.Host,
+			setting.DatabaseSetting.Name))
 
 	if err != nil {
 		log.Fatal("Failed to connect database : ", err)
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return table_prefix + defaultTableName
+		return setting.DatabaseSetting.TablePrefix + defaultTableName
 	}
 
 	db.SingularTable(true)

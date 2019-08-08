@@ -29,7 +29,7 @@ var (
 	levelFlags = []string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
 )
 
-func init() {
+func Setup() {
 
 	filePath := getLogFileFullPath()
 

@@ -9,8 +9,15 @@ import (
 )
 
 func getLogFileFullPath() string {
-	suffixPath := fmt.Sprintf("%s%s.%s", setting.LogSaveName, time.Now().Format(setting.LogTimeFormat), setting.LogFileExt)
-	return fmt.Sprintf("%s%s", setting.LogSavePath, suffixPath)
+
+	suffixPath := fmt.Sprintf(
+		"%s%s.%s",
+		setting.LogSetting.LogSaveName,
+		time.Now().Format(setting.LogSetting.LogTimeFormat),
+		setting.LogSetting.LogFileExt)
+
+	return fmt.Sprintf("%s%s", setting.LogSetting.LogSavePath, suffixPath)
+
 }
 
 func openLogFile(filePath string) *os.File {
@@ -22,7 +29,7 @@ func openLogFile(filePath string) *os.File {
 	switch {
 
 	case os.IsNotExist(err):
-		os.MkdirAll(dir+setting.LogSavePath, os.ModePerm)
+		os.MkdirAll(dir+setting.LogSetting.LogSavePath, os.ModePerm)
 		break
 
 	case os.IsPermission(err):
