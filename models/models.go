@@ -35,8 +35,12 @@ func Setup() {
 		log.Fatal("Failed to connect database : ", err)
 	}
 
-	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return setting.DatabaseSetting.TablePrefix + defaultTableName
+	if setting.DatabaseSetting.TablePrefix != "" {
+
+		gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+			return setting.DatabaseSetting.TablePrefix + defaultTableName
+		}
+
 	}
 
 	db.SingularTable(true)
