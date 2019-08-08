@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"go_webapp/models"
+	"go_webapp/pkg/gredis"
 	"go_webapp/pkg/logging"
 	"go_webapp/pkg/setting"
 	"go_webapp/routers"
@@ -16,6 +17,7 @@ func main() {
 	// 初始化模块
 	setting.Setup()
 	models.Setup()
+	gredis.Setup()
 	logging.Setup()
 
 	endless.DefaultReadTimeOut = setting.ServerSetting.ReadTimeout

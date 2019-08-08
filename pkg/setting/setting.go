@@ -49,14 +49,27 @@ type Log struct {
 
 var LogSetting = &Log{}
 
+type Redis struct {
+	Host        string
+	Password    string
+	Database    int
+	MaxIdle     int
+	MaxActive   int
+	IdleTimeout time.Duration
+}
+
+var RedisSetting = &Redis{}
+
 func Setup() {
 
 	LoadEnv() //加载配置文件
 
-	LoadServer()     //加载服务配置
-	LoadDatabase()   //加载数据库配置
-	LoadApp()        //加载应用配置
-	LoadLogSetting() //加载日志配置
+	LoadServer()       //加载服务配置
+	LoadDatabase()     //加载数据库配置
+	LoadRedisSetting() //加载Redis配置
+	LoadApp()          //加载应用配置
+	LoadLogSetting()   //加载日志配置
+
 }
 
 func LoadEnv() {
@@ -114,4 +127,14 @@ func LoadLogSetting() {
 	if err != nil {
 		log.Fatal("Failed to map LogSetting")
 	}
+}
+
+func LoadRedisSetting() {
+	err := Cfg.Section("redis").MapTo(RedisSetting)
+
+	if err != nil {
+		log.Fatal("Failed to map RedisSetting")
+	}
+
+	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
 }
