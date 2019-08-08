@@ -2,10 +2,10 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"go_webapp/controller/api"
+	"go_webapp/controller/api/v1"
 	"go_webapp/middleware/jwt"
 	"go_webapp/pkg/setting"
-	"go_webapp/routers/api"
-	"go_webapp/routers/api/v1"
 )
 
 func InitRouter() *gin.Engine {

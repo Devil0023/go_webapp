@@ -16,6 +16,7 @@ type auth struct {
 }
 
 func GetAuth(context *gin.Context) {
+
 	username := context.Query("username")
 	password := context.Query("password")
 

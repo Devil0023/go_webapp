@@ -11,6 +11,7 @@ type Auth struct {
 }
 
 func CheckAuth(username, password string) bool {
+
 	var auth Auth
 
 	db.Select("id").Where(Auth{Username: username, Password: util.Str2Md5(password)}).First(&auth)
