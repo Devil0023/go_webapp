@@ -85,7 +85,7 @@ func LoadEnv() {
 
 func LoadDatabase() {
 
-	err := Cfg.Section("server").MapTo(DatabaseSetting)
+	err := Cfg.Section("database").MapTo(DatabaseSetting)
 	if err != nil {
 		log.Fatal("Failed to map DatabaseSetting")
 	}

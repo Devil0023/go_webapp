@@ -9,10 +9,12 @@ import (
 )
 
 func InitRouter() *gin.Engine {
+
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	gin.SetMode(setting.RunMode)
+
+	gin.SetMode(setting.ServerSetting.RunMode)
 
 	auth := router.Group("/auth")
 	{
