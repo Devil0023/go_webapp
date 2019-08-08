@@ -10,3 +10,15 @@ const (
 	ERROR_AUTH_TOKEN               = 20003
 	ERROR_AUTH                     = 20004
 )
+
+var MsgMap = map[int]string{
+
+	SUCCESS:        "success",
+	ERROR:          "error",
+	INVALID_PARAMS: "invalid_params",
+
+	ERROR_AUTH_CHECK_TOKEN_FAIL:    "ERROR_AUTH_CHECK_TOKEN_FAIL",
+	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "ERROR_AUTH_CHECK_TOKEN_TIMEOUT",
+	ERROR_AUTH_TOKEN:               "ERROR_AUTH_TOKEN",
+	ERROR_AUTH:                     "ERROR_AUTH",
+}
