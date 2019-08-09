@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"github.com/fvbock/endless"
+	"go_webapp/cron"
 	"go_webapp/models"
 	"go_webapp/pkg/gredis"
 	"go_webapp/pkg/logging"
 	"go_webapp/pkg/setting"
-	"go_webapp/routers"
-	"log"
-	"syscall"
+	"go_webapp/server"
+	"runtime"
+	"sync"
 )
 
 //main main函数
@@ -21,21 +20,23 @@ func main() {
 	gredis.Setup()
 	logging.Setup()
 
-	endless.DefaultReadTimeOut = setting.ServerSetting.ReadTimeout
-	endless.DefaultWriteTimeOut = setting.ServerSetting.WriteTimeout
-	endless.DefaultMaxHeaderBytes = 1 << 20
+	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-	server := endless.NewServer(endPoint, routers.InitRouter())
+	//crontab
+	go func() {
+		defer wg.Done()
+		cron.Run()
+	}()
 
-	server.BeforeBegin = func(add string) {
-		log.Printf("Actual pid is %d", syscall.Getpid())
-	}
+	//server
+	go func() {
+		defer wg.Done()
+		server.Run()
+	}()
 
-	err := server.ListenAndServe()
+	wg.Wait()
 
-	if err != nil {
-		log.Fatal("Server Error: $v", err)
-	}
 }

@@ -6,14 +6,18 @@ import (
 	"time"
 )
 
-//Setup 注册Crontab
-func Setup() {
+//Run 运行Crontab
+func Run() {
 	log.Println("Start")
 
 	c := cron.New()
 
-	c.AddFunc("* * * * * *", func() {
-		log.Println("Hello World")
+	c.AddFunc("*/5 * * * * *", func() {
+		log.Println("Hello World by 5 secounds")
+	})
+
+	c.AddFunc("*/2 * * * * *", func() {
+		log.Println("Hello World by 2 secounds")
 	})
 
 	c.Start()
