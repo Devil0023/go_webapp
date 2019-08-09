@@ -13,7 +13,7 @@ lint:
 	golint ./... | grep -v vendor; true
 
 clean:
-	rm -rf go_webapp
+	rm -f go_webapp
 	go clean -i .
 
 help:
