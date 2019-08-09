@@ -10,6 +10,7 @@ type Auth struct {
 	Password string `json:"password"`
 }
 
+//CheckAuth 检查授权
 func CheckAuth(username, password string) bool {
 
 	var auth Auth

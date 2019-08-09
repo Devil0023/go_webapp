@@ -29,16 +29,18 @@ var (
 	levelFlags = []string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
 )
 
+//Setup 注册log
 func Setup() {
 
-	filePath := getLogFileFullPath()
+	filePath := GetLogFileFullPath()
 
-	F = openLogFile(filePath)
+	F = OpenLogFile(filePath)
 
 	logger = log.New(F, DefaultPrefix, log.LstdFlags)
 
 }
 
+//SetPrefix 设置文件名前缀
 func SetPrefix(level Level) {
 	_, file, line, ok := runtime.Caller(DefaultCallerDepth)
 
@@ -51,26 +53,31 @@ func SetPrefix(level Level) {
 	logger.SetPrefix(logPrefix)
 }
 
+//Debug debug级
 func Debug(v ...interface{}) {
 	SetPrefix(DEBUG)
 	logger.Println(v)
 }
 
+//Info info级
 func Info(v ...interface{}) {
 	SetPrefix(INFO)
 	logger.Println(v)
 }
 
+//Warn warn级
 func Warn(v ...interface{}) {
 	SetPrefix(WARN)
 	logger.Println(v)
 }
 
+//Error error级
 func Error(v ...interface{}) {
 	SetPrefix(ERROR)
 	logger.Fatalln(v)
 }
 
+//Fatal fatal级
 func Fatal(v ...interface{}) {
 	SetPrefix(FATAL)
 	logger.Println(v)

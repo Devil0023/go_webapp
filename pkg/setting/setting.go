@@ -60,6 +60,7 @@ type Redis struct {
 
 var RedisSetting = &Redis{}
 
+//Setup 注册配置文件
 func Setup() {
 
 	LoadEnv() //加载配置文件
@@ -72,6 +73,7 @@ func Setup() {
 
 }
 
+//LoadEnv 加载环境设置
 func LoadEnv() {
 
 	info, err := ioutil.ReadFile("./.env")
@@ -96,6 +98,7 @@ func LoadEnv() {
 	}
 }
 
+//LoadDatabase 加载数据库配置
 func LoadDatabase() {
 
 	err := Cfg.Section("database").MapTo(DatabaseSetting)
@@ -107,6 +110,7 @@ func LoadDatabase() {
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
 }
 
+//LoadServer 加载服务器配置
 func LoadServer() {
 	err := Cfg.Section("server").MapTo(ServerSetting)
 	if err != nil {
@@ -114,6 +118,7 @@ func LoadServer() {
 	}
 }
 
+//LoadApp 加载应用配置
 func LoadApp() {
 	err := Cfg.Section("app").MapTo(AppSetting)
 	if err != nil {
@@ -121,6 +126,7 @@ func LoadApp() {
 	}
 }
 
+//LoadLogSetting 加载日志配置
 func LoadLogSetting() {
 
 	err := Cfg.Section("log").MapTo(LogSetting)
@@ -129,6 +135,7 @@ func LoadLogSetting() {
 	}
 }
 
+//LoadRedisSetting 加载Redis配置
 func LoadRedisSetting() {
 	err := Cfg.Section("redis").MapTo(RedisSetting)
 

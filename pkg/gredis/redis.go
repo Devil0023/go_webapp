@@ -9,6 +9,7 @@ import (
 
 var RedisConn *redis.Pool
 
+//Setup 注册Redis
 func Setup() error {
 
 	RedisConn = &redis.Pool{
@@ -51,6 +52,7 @@ func Setup() error {
 	return nil
 }
 
+//Set set命令
 func Set(key string, data interface{}, time int) (string, error) {
 
 	var result string
@@ -74,6 +76,7 @@ func Set(key string, data interface{}, time int) (string, error) {
 	return result, err
 }
 
+//Get get命令
 func Get(key string) ([]byte, error) {
 
 	conn := RedisConn.Get()
@@ -89,6 +92,7 @@ func Get(key string) ([]byte, error) {
 	return result, nil
 }
 
+//Exists exists命令
 func Exists(key string) bool {
 
 	conn := RedisConn.Get()
@@ -104,6 +108,7 @@ func Exists(key string) bool {
 	return result
 }
 
+//Delete delete命令
 func Delete(key string) (bool, error) {
 
 	conn := RedisConn.Get()

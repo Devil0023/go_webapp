@@ -7,6 +7,7 @@ import (
 	"go_webapp/pkg/logging"
 )
 
+//Str2Md5 String转MD5
 func Str2Md5(input string) string {
 	h := md5.New()
 	h.Write([]byte(input))
@@ -14,6 +15,7 @@ func Str2Md5(input string) string {
 	return hex.EncodeToString(cipherStr)
 }
 
+//LogErrors 记录错误日志
 func LogErrors(errors []*validation.Error) {
 
 	for _, err := range errors {

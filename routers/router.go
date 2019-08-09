@@ -8,6 +8,7 @@ import (
 	"go_webapp/pkg/setting"
 )
 
+//InitRouter
 func InitRouter() *gin.Engine {
 
 	router := gin.New()

@@ -7,7 +7,8 @@ import (
 	"time"
 )
 
-func main() {
+//Test 测试
+func Test() {
 
 	setting.Setup()
 	gredis.Setup()

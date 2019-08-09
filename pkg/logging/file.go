@@ -8,7 +8,8 @@ import (
 	"time"
 )
 
-func getLogFileFullPath() string {
+//GetLogFileFullPath 获取log路径
+func GetLogFileFullPath() string {
 
 	suffixPath := fmt.Sprintf(
 		"%s%s.%s",
@@ -20,7 +21,8 @@ func getLogFileFullPath() string {
 
 }
 
-func openLogFile(filePath string) *os.File {
+//OpenLogFile 打开log文件
+func OpenLogFile(filePath string) *os.File {
 
 	dir, _ := os.Getwd()
 

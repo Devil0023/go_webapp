@@ -12,6 +12,7 @@ import (
 	"syscall"
 )
 
+//main main函数
 func main() {
 
 	// 初始化模块

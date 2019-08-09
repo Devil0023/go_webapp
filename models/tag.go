@@ -9,16 +9,19 @@ type Tag struct {
 	State      int    `json:"state"`
 }
 
+//GetTags
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
 	db.Where(maps).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&tags)
 	return
 }
 
+//GetTagTotal
 func GetTagTotal(maps interface{}) (count int) {
 	db.Model(&Tag{}).Where(maps).Count(&count)
 	return
 }
 
+//GetTagById
 func GetTagById(id int) (tag Tag) {
 	maps := make(map[string]interface{})
 	maps["id"] = id
@@ -27,6 +30,7 @@ func GetTagById(id int) (tag Tag) {
 	return
 }
 
+//AddTag
 func AddTag(name string, state int, createdBy string) bool {
 
 	db.Create(&Tag{
@@ -39,6 +43,7 @@ func AddTag(name string, state int, createdBy string) bool {
 	return true
 }
 
+//EditTag
 func EditTag(id int, name string, state int, updatedBy string) bool {
 
 	data := make(map[string]interface{})
@@ -52,6 +57,7 @@ func EditTag(id int, name string, state int, updatedBy string) bool {
 	return true
 }
 
+//CheckExistsById
 func CheckExistsById(id int) bool {
 
 	var tag Tag
@@ -65,6 +71,7 @@ func CheckExistsById(id int) bool {
 	}
 }
 
+//DeleteTagById
 func DeleteTagById(id int) bool {
 	db.Where("id = ?", id).Delete(&Tag{})
 	return true

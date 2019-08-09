@@ -1,4 +1,4 @@
-package main
+package cron
 
 import (
 	"github.com/robfig/cron"
@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-func main() {
+//Setup 注册Crontab
+func Setup() {
 	log.Println("Start")
 
 	c := cron.New()

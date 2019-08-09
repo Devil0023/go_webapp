@@ -14,6 +14,7 @@ type auth struct {
 	Password string `valid:"Required; MaxSize(50)"`
 }
 
+//GetAuth 获取授权
 func GetAuth(context *gin.Context) {
 
 	appG := app.Gin{context}

@@ -10,6 +10,7 @@ import (
 	"go_webapp/pkg/util"
 )
 
+//GetTags 获取
 func GetTags(context *gin.Context) {
 
 	appG := app.Gin{context}
@@ -43,6 +44,7 @@ func GetTags(context *gin.Context) {
 
 }
 
+//AddTag 新增
 func AddTag(context *gin.Context) {
 
 	appG := app.Gin{context}
@@ -72,6 +74,7 @@ func AddTag(context *gin.Context) {
 	return
 }
 
+//EditTag 编辑
 func EditTag(context *gin.Context) {
 
 	appG := app.Gin{context}
@@ -99,6 +102,7 @@ func EditTag(context *gin.Context) {
 
 }
 
+//DeleteTag 删除
 func DeleteTag(context *gin.Context) {
 
 	appG := app.Gin{context}
@@ -117,6 +121,7 @@ func DeleteTag(context *gin.Context) {
 
 }
 
+//GetTagById 获取
 func GetTagById(context *gin.Context) {
 
 	appG := app.Gin{context}

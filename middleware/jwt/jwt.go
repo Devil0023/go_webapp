@@ -13,6 +13,7 @@ type JWTAuth struct {
 	Token string `valid:"Required"`
 }
 
+//JWT 授权函数
 func JWT() gin.HandlerFunc {
 
 	return func(context *gin.Context) {

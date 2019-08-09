@@ -18,6 +18,7 @@ type Model struct {
 	Deleted_at time.Time `json:"deleted_at"`
 }
 
+//Setup 注册数据库
 func Setup() {
 
 	var err error
@@ -47,13 +48,14 @@ func Setup() {
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 
-	db.Callback().Create().Replace("gorm:update_time_stamp", createdAtCallback)
-	db.Callback().Update().Replace("gorm:update_time_stamp", updatedAtCallback)
-	db.Callback().Delete().Replace("gorm:delete", deletedAtCallback)
+	db.Callback().Create().Replace("gorm:update_time_stamp", CreatedAtCallback)
+	db.Callback().Update().Replace("gorm:update_time_stamp", UpdatedAtCallback)
+	db.Callback().Delete().Replace("gorm:delete", DeletedAtCallback)
 
 }
 
-func createdAtCallback(scope *gorm.Scope) {
+//CreatedAtCallback 生成回调
+func CreatedAtCallback(scope *gorm.Scope) {
 
 	if !scope.HasError() {
 
@@ -74,7 +76,8 @@ func createdAtCallback(scope *gorm.Scope) {
 	}
 }
 
-func updatedAtCallback(scope *gorm.Scope) {
+//UpdatedAtCallback 更新回调
+func UpdatedAtCallback(scope *gorm.Scope) {
 
 	if !scope.HasError() {
 
@@ -85,7 +88,8 @@ func updatedAtCallback(scope *gorm.Scope) {
 	}
 }
 
-func deletedAtCallback(scope *gorm.Scope) {
+//DeletedAtCallback 删除回调
+func DeletedAtCallback(scope *gorm.Scope) {
 
 	if !scope.HasError() {
 
@@ -103,15 +107,15 @@ func deletedAtCallback(scope *gorm.Scope) {
 				scope.QuotedTableName(),
 				scope.Quote(deletedAtField.DBName),
 				scope.AddToVars(time.Now()),
-				addExtraSpaceIfExist(scope.CombinedConditionSql()),
-				addExtraSpaceIfExist(extraOption),
+				AddExtraSpaceIfExist(scope.CombinedConditionSql()),
+				AddExtraSpaceIfExist(extraOption),
 			)
 		} else {
 			sql = fmt.Sprintf(
 				"DELETE FROM %v%v%v",
 				scope.QuotedTableName(),
-				addExtraSpaceIfExist(scope.CombinedConditionSql()),
-				addExtraSpaceIfExist(extraOption),
+				AddExtraSpaceIfExist(scope.CombinedConditionSql()),
+				AddExtraSpaceIfExist(extraOption),
 			)
 		}
 
@@ -120,7 +124,8 @@ func deletedAtCallback(scope *gorm.Scope) {
 	}
 }
 
-func addExtraSpaceIfExist(str string) string {
+//AddExtraSpaceIfExist 增加空格
+func AddExtraSpaceIfExist(str string) string {
 
 	if str != "" {
 		return " " + str
@@ -130,6 +135,7 @@ func addExtraSpaceIfExist(str string) string {
 
 }
 
+//CloseDB 关闭数据库连接
 func CloseDB() {
 	defer db.Close()
 }
