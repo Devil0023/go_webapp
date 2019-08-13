@@ -1,23 +1,26 @@
 package cron
 
 import (
+	"fmt"
 	"github.com/robfig/cron"
-	"log"
+	"go_webapp/pkg/logging"
 	"time"
 )
 
 //Run 运行Crontab
 func Run() {
-	log.Println("Start")
+
+	fmt.Println("Start")
 
 	c := cron.New()
 
 	c.AddFunc("*/5 * * * * *", func() {
-		log.Println("Hello World by 5 secounds")
+		fmt.Println("Hello World by 5 seconds")
 	})
 
 	c.AddFunc("*/2 * * * * *", func() {
-		log.Println("Hello World by 2 secounds")
+		fmt.Println("Hello World by 2 seconds")
+		logging.Info("Hello World by 2 seconds")
 	})
 
 	c.Start()
