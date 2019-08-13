@@ -3,7 +3,7 @@
 all: build
 
 build:
-	@go build -v .
+	go build -v .
 
 tool:
 	go vet . | grep -v vendor; true
