@@ -60,6 +60,12 @@ type Redis struct {
 
 var RedisSetting = &Redis{}
 
+type Rpc struct {
+	Listen string
+}
+
+var RpcSetting = &Rpc{}
+
 //Setup 注册配置文件
 func Setup() {
 
@@ -70,6 +76,7 @@ func Setup() {
 	LoadRedisSetting() //加载Redis配置
 	LoadApp()          //加载应用配置
 	LoadLogSetting()   //加载日志配置
+	LoadRpc()          //加载RPC配置
 
 }
 
@@ -144,4 +151,12 @@ func LoadRedisSetting() {
 	}
 
 	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
+}
+
+//LoadRpc
+func LoadRpc() {
+	err := Cfg.Section("rpc").MapTo(RpcSetting)
+	if err != nil {
+		log.Fatal("Failed to map RpcSetting")
+	}
 }

@@ -6,6 +6,7 @@ import (
 	"go_webapp/pkg/gredis"
 	"go_webapp/pkg/logging"
 	"go_webapp/pkg/setting"
+	"go_webapp/rpc"
 	"go_webapp/server"
 	"runtime"
 	"sync"
@@ -23,7 +24,7 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(3)
 
 	//crontab
 	go func() {
@@ -35,6 +36,12 @@ func main() {
 	go func() {
 		defer wg.Done()
 		server.Run()
+	}()
+
+	//rpc
+	go func() {
+		defer wg.Done()
+		rpc.Run()
 	}()
 
 	wg.Wait()
