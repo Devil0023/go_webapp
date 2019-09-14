@@ -117,3 +117,39 @@ func Delete(key string) (bool, error) {
 
 	return redis.Bool(conn.Do("DELETE", key))
 }
+
+//Ttl ttl命令
+func Ttl(key string) (int64, error) {
+	conn := RedisConn.Get()
+
+	defer conn.Close()
+
+	return redis.Int64(conn.Do("TTL", key))
+}
+
+//HGetAll hgetall
+func HGetAll(key string) (map[string]interface{}, error) {
+
+	conn := RedisConn.Get()
+
+	data := make(map[string]interface{})
+
+	defer conn.Close()
+
+	slices, err := redis.ByteSlices(conn.Do("HGETALL", key))
+
+	if err != nil {
+		return nil, err
+	}
+
+	for i, v := range slices {
+
+		if i%2 == 0 {
+			data[string(v)] = string(slices[i+1])
+		}
+
+	}
+
+	return data, nil
+
+}

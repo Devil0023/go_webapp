@@ -3,7 +3,6 @@ package cron
 import (
 	"fmt"
 	"github.com/robfig/cron"
-	"go_webapp/pkg/logging"
 	"time"
 )
 
@@ -16,11 +15,6 @@ func Run() {
 
 	c.AddFunc("*/5 * * * * *", func() {
 		fmt.Println("Hello World by 5 seconds")
-	})
-
-	c.AddFunc("*/2 * * * * *", func() {
-		fmt.Println("Hello World by 2 seconds")
-		logging.Info("Hello World by 2 seconds")
 	})
 
 	c.Start()
